@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<zone><name>Starting Zone</name>
+<desc>This is the starting zone...</desc>
+<author>The Wizzzard</author>
+<date>August 5th, 2010</date>
+<begin>You wake up and wonder where you are... Maybe you should LOOK around!</begin>
+<area id="0">
+	<name>In a Small Bedroom</name>
+	<desc>You are standing in a small bedroom. A window, covered with a thick layer of dust, provides little indication of what time it is. An oak dresser sits on the North wall, opposite to the door. There is a simple-looking bed and a small, non-descript rug.</desc>
+	<item class="container" id="1">
+		<name>dresser</name>
+		<short_desc>A dresser sits against the wall.</short_desc>
+		<desc>The dresser looks well used, but is still in good condition. It has several drawers.</desc>
+		<item class="clothes" id="20" armor="5">
+			<name>gown</name>
+			<short_desc>An evening gown lies crumpled here.</short_desc>
+			<desc>A light pink evening gown. It looks a bit silly, but it's better than nothing.</desc>
+		</item>
+		<item class="weapon" id="21" damage="10">
+			<name>knife</name>
+			<short_desc>A small hunting knife.</short_desc>
+			<desc>A small hunting knife. It might be a useful weapon.</desc>
+		</item>
+	</item>
+	<item class="static" id="2">
+		<name>bed</name>
+		<short_desc>A simple looking bed sits in the middle of the room.</short_desc>
+		<desc>The bed looks plain, but still comfortable. You don't feel like resting on it.</desc>
+	</item>
+	<item class="dynamic" id="3">
+		<name>window</name>
+		<short_desc>A window is the only source of light you can find.</short_desc>
+		<desc>The window is covered in dust. Perhaps you could WIPE it.</desc>
+		<desc state="1">The window is too warped to look through, but it appears like it is evening outside.</desc>
+		<action type="state_advance" target="3" usage="once">wipe</action>
+	</item>
+	<exit id="4">
+		<name>door</name>
+		<desc>An ordinary door. It isn't locked.</desc>
+		<action type="exit" target="5">south</action>
+	</exit> 
+</area>
+
+<area id="5">
+	<name>At the top of a Stairwell</name>
+	<desc>You are standing at the top of a stairwell. To the north is a door. A poorly-lit staircase descends to the south.</desc>
+	<exit id="6">
+		<name>door</name>
+		<desc>An ordinary door. It isn't locked.</desc>
+		<action type="exit" target="0">north</action>
+	</exit>
+	<exit id="7">
+		<name>staircase</name>
+		<desc>A stairwell. Despite the poor lighting the staircase seems sturdy.</desc>
+		<action type="exit" target="8">south</action>
+		<action type="exit" target="8">down</action>
+	</exit>
+</area>
+
+<area id="8">
+	<name>A Cozy Living Room</name>
+	<desc>You enter a medium sized living room. Everything about your surroundings makes you feel comfortable. A poorly-lit staircase descends up to the north and an opening in the west wall leads to a hallway.</desc>
+	<item class="static" id="9">
+		<name>fire</name>
+		<short_desc>A crackling fire adds to the warmth in the room.</short_desc>
+		<desc>You feel like you could watch the fireplace for hours... but you probably shouldn't.</desc>
+	</item>
+	<item class="static" id="10">
+		<name>rug</name>
+		<desc>The rug is covered in a red and blue pattern.</desc>
+		<short_desc>There is a worn rug here</short_desc>
+	</item>
+	<item class="container" id="11">
+		<name>table</name>
+		<short_desc>A table sits against the wall.</short_desc>
+		<desc>The table is short and small. On top sits a half-empty bottle, some glasses and a small key.</desc>
+		<item class="key" id="15">
+			<name>key</name>
+			<short_desc>A small key.</short_desc>
+			<desc>A small key.</desc>
+			<action type="state_advance" target="17" usage="use">use key</action>
+		</item>
+	</item>
+	<exit id="12">
+		<name>staircase</name>
+		<desc>A stairwell. Despite the poor lighting the staircase seems sturdy.</desc>
+		<action type="exit" target="5">north</action>
+		<action type="exit" target="5">up</action>
+	</exit>
+	<exit id="18">
+		<name>portal</name>
+		<desc>This portal leads to a hallway.</desc>
+		<action type="exit" target="16">west</action>
+	</exit>
+	<mob_instance id="13" mob="14"></mob_instance>
+</area>
+<area id="16">
+	<name>A Hallway</name>
+	<desc>You are in a hallway. It leads in one direction to a door and the opposite direction to a cozy room.</desc>
+	<exit id="17">
+		<name>door</name>
+		<desc>A door that looks like it leads outside. It is locked.</desc>
+		<desc state="1">A door that looks like it leads outside. It is unlocked.</desc>
+		<action type="exit" target="0" requires="1">south</action>
+	</exit>
+</area>
+<mobile id="14" max_health="50" toughness="5" damage="10">
+	<name>man</name>
+	<short_desc>An elderly man is sitting here, relaxing.</short_desc>
+	<desc>An elderly man is sitting here. When you enter he looks up and smiles.</desc>
+	<dialogue state="0" next_state="1" trigger="start">Hello there!</dialogue>
+	<dialogue state="1" next_state="1" trigger="hello">I was wondering when you would get up.</dialogue>
+	<dialogue state="1" next_state="1" trigger="wondering">Yes, you've been sleeping a long time.</dialogue>
+</mobile>
+</zone>
