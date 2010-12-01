@@ -2,7 +2,7 @@ import java.util.*;
 
 /**
  * the mobile class holds the information
- * for each type of mobile. individual mobiles
+ * for each TYPE of mobile. individual mobiles
  * use the mobileInstance class
  * @author peter
  *

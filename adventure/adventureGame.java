@@ -13,6 +13,8 @@ import javax.xml.stream.events.XMLEvent;
 //		 tasks should be handed off to new classes.
 
 /**
+ * Game instance. Handles in-game commands from the player and the resulting interactions
+ * with the game environment. 
  * @author - Peter Kennedy
  */
 public class adventureGame {
@@ -132,7 +134,7 @@ public class adventureGame {
 		}
 		command = command.trim();
 		
-		
+		// Check hard-coded commands
 		if (command.startsWith("look")) {
 			handleLook(command, buffer);
 		} else if (command.startsWith("talk")) {
@@ -174,12 +176,12 @@ public class adventureGame {
 			handleDrop(command, buffer);
 			
 		} else {
-		
+			// Look for commands created by the current game situation
 			action current_action = findAction(command);
 			if (current_action != null) {
 				buffer.add(doAction(current_action));
 			} else {
-		
+				// If there is none, let the player know
 				if (!handleGeneric(command, buffer)) {
 					buffer.add("Ok, but that doesn't do much.");
 					buffer.add("(Type help if you are having trouble)");
@@ -308,7 +310,11 @@ public class adventureGame {
 		}
 		
 	}
-	
+	/**
+	 * Handles flee comman
+	 * @param target
+	 * @return output response
+	 */
 	public String handleFlee(area target) {
 		
 		int flee_chance = 3;
@@ -316,13 +322,13 @@ public class adventureGame {
 		Random r = new Random();
 		int rand = r.nextInt(10);
 		
-		// only allow players a certain change to flee to prevent it from
+		// only allow players a certain chance to flee to prevent it from
 		// being an easy escape, odds can be changed by changing flee_chance
 		if (rand > flee_chance) {
 			inCombat = false;
-			// TODO: make combat_mobs aggresive so player can't flee and reenter
+			// TODO: make combat_mobs aggressive so player can't flee and reenter
 			combat_mobs.clear();
-			handleMove(target); // if there are aggresive mobs in next area, this will handle it
+			handleMove(target); // if there are aggressive mobs in next area, this will handle it
 			return "You flee!";
 		} else {
 			return "You fail to flee!";
@@ -697,12 +703,11 @@ public class adventureGame {
 	}
 	
 	/**
-	 * executes action
+	 * executes non-hard-coded actions
 	 * @param current_action - action to be executed
 	 * @return text for output
 	 */
 	public String doAction(action current_action) {
-		// TODO CHECK USAGE
 		
 		if((current_action.useOnce) && (current_action.used)) {
 			return "You can't do that anymore.";
@@ -733,14 +738,14 @@ public class adventureGame {
 			}
 
 		} catch (Exception e) {
-			// whatever
+			// TODO: Handle this
 		}
 		return "You can't do that right now. Maybe you need to do something else first?";
 	}
 
 	// TODO: not return actions that must be used?
 	/**
-	 * finds an action give it's name
+	 * finds a non-hard-coded action given its name
 	 * returns action
 	 */
 	public action findAction(String name) {
@@ -810,7 +815,7 @@ public class adventureGame {
 		 
 	}
 	/**
-	 * find's a mobile given it's name
+	 * finds a mobile given it's name
 	 * @param name String of mobile
 	 * @return mobile if found or null
 	 */

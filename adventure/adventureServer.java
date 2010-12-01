@@ -5,15 +5,24 @@ import java.net.*;
 
 
 
-
+/**
+ * Class implementing the server. Main entry point for the application.
+ * @author peter kennedy
+ *
+ */
 public class adventureServer implements Runnable {
 	
 	ArrayList<String> messages;
-
+	
 	public adventureServer(ArrayList<String> msgs) {
 		messages = msgs;
 	}
-	 
+	
+	/**
+	 * Main server method. Initializes the socket and listens for connections, passing
+	 * off the socket and generating a new one as needed. Also handles messaging between
+	 * the server console and the connections. 
+	 */
 	public void run() {
 		
 		// Init server socket
@@ -94,16 +103,17 @@ public class adventureServer implements Runnable {
 		System.out.println();
 		System.out.println("Starting server...");
 
-		// Initilize messages
+		// Initialize messages
 		ArrayList<String> messages = new ArrayList<String>();
 
-		// Initilize server thread
+		// Initialize server thread
 		Thread t = new Thread(new adventureServer(messages));
 		t.start();
 
 		// Capture input stream
 		BufferedReader cin = new BufferedReader(new InputStreamReader(System.in));
 
+		// Listen for commands
 		while (serverStatus) {
 			try {
 				System.out.print(">>?");

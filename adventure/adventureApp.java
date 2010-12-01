@@ -40,6 +40,10 @@ public class adventureApp implements Runnable {
 		isStarted = true;
 	}
 
+	/**
+	 * Formats and displays the passed string to the connected user.
+	 * @param display
+	 */
 	private void display(ArrayList<String> display) {
 		
 		int max_width = 60;
@@ -75,6 +79,11 @@ public class adventureApp implements Runnable {
 		
 	}
 	
+	/**
+	 * Loop run when the connected player is in a combat sequence. Automatically
+	 * advances the game state, rather than waiting for player input in the normal
+	 * app loop. Returns when combat is over.
+	 */
 	private void combatRun() {
 		
 		// Change to alter combat tick time in milliseconds
@@ -82,8 +91,8 @@ public class adventureApp implements Runnable {
 		
 		while (game.inCombat) {
 			
+			// Check for input from the player
 			String inputString = null;
-			
 			try {
 				if (input.ready()) {
 					inputString = input.readLine();
@@ -96,11 +105,11 @@ public class adventureApp implements Runnable {
 				System.out.println("Error in combatRun" + e.toString());
 			}
 			
+			// Get and display output from the game instance
 			ArrayList<String> displayBuffer = game.combatAdvance(inputString);
-		
 			display(displayBuffer);
-			// Display in-game prompt
 			
+			// Display a special prompt
 			output.print("*fighting*>");
 			output.flush();
 			try {
@@ -111,6 +120,11 @@ public class adventureApp implements Runnable {
 		}
 	}
 
+	/**
+	 * Main loop for each connection.
+	 * TODO: Split off separate game states into separate functions...
+	 * 		 i.e. intro screen, starting, running, etc.
+	 */
 	public void run() {
 		
 		// TODO read news from file
@@ -172,24 +186,30 @@ public class adventureApp implements Runnable {
 			output.print("Enter a command>");
 			output.flush();
 		}
-	
+		
+		// Main in-game loop
 		while (running == true) {
 			
 			try {
+				// See if there is input
 				if (input.ready()) {
 					output.println();
+					// Grab input
 					String inputString = input.readLine();
+					// If input string is quit, leave the "running" loop
 					if (inputString.equalsIgnoreCase("quit")) {
 						running = false;
 					} else {
+						// Otherwise pass input to game instance
 						ArrayList<String> displayBuffer = game.advance(inputString);
+						// Display out from game instance
 						display(displayBuffer);
+						// If we have entered combat, switch to the combat run
 						if (game.inCombat) {
 							combatRun();
 						}
 						
 					}
-					
 					// Display in-game prompt
 					output.print(">");
 					output.flush();
@@ -203,6 +223,7 @@ public class adventureApp implements Runnable {
 				output.println("SERVER: SHUTTING DOWN NOW");
 				running = false;
 			}
+			// If the game instance has ended itself, the player has died and the game is over
 			if (!game.inGame) {
 				running = false;
 				output.println();

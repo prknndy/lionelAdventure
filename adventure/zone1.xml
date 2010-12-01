@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <zone><name>Starting Zone</name>
 <desc>This is the starting zone...</desc>
-<author>The Wizzzard</author>
+<author>Peter</author>
 <date>August 5th, 2010</date>
 <begin>You wake up and wonder where you are... Maybe you should LOOK around!</begin>
 <area id="0">

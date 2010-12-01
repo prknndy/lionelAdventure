@@ -1,0 +1,7 @@
+lionelAdventure
+
+-Mulithreaded server operating on port 2080 and accessible via telnet clients. Serves up interactive text-based adventure games stored in an xml format.
+
+All server files are located in ./adventure.
+
+[ by: Peter Kennedy 8/1/2010] 
